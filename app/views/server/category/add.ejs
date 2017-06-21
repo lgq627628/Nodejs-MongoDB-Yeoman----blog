@@ -1,0 +1,13 @@
+<% include ../header %>
+
+  <h2 class="page-header"><%= category ? '编辑分类' : '添加分类' %></h2>
+  <%- messages() %>
+  <form class="vertical-form" method="post" action=<%= action %>>
+  	<div class="form-group">
+  		<label for="name">名称</label>
+  		<input class="form-control input-lg" name="name" required placeholder="请输入分类标题。。" value=<%= category.name %>>
+  	</div>
+  	<button class="btn btn-info" type="submit"><%= category ? '保存修改' : '添加分类' %></button>
+  </form>
+
+<% include ../footer %>

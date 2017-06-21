@@ -1,0 +1,56 @@
+<% include header %>
+  
+  <div class="container">
+    <%- messages() %>
+    <h2 class="page-header"><%= post.title %></h2>
+    <div class="row">
+      <div class="col-sm-8 blog-main">
+            <div class="post post-view">
+              <div class="post-meta">
+                <span class="post-created"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;<%= moment(post.created).format('YYYY-MM-DD') %></span>
+                <span class="post-author"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;<%= post.author.name %></span>
+                <span class="post-category"><a target="_blank" href="/posts/category/<%= post.category.name %>"><i class="fa fa-shopping-basket" aria-hidden="true"></i>&nbsp;<%= post.category.name %></a></span>
+                <span class="post-comment"><i class="fa fa-comment" aria-hidden="true"></i>&nbsp;<%= post.comment.length || 0 %></span>
+                <span class="post-favorite">
+                  <a href="/posts/favorite/<%= post._id %>">
+                   <i class="fa fa-star" aria-hidden="true"></i>&nbsp;
+                    <%= post.meta.favorite || 0 %>
+                  </a>
+                </span>
+              </div>
+              <div class="post-content"><%- post.content %></div>
+              <div class="post-comments">
+                <h3>用户评论</h3>
+                <div class="post-comment-list">
+                  <% if(post.comment.length){ %>
+                    <% post.comment.forEach(function(comment){ %>
+                      <div class="post-comment-item">
+                        <h4 class="post-comment-email">
+                          <%= comment.email %>
+                          <small class="pull-right"><%= moment(comment.created).format('YYYY-MM-DD HH:MM:SS') %></small>
+                        </h4>
+                        <p class="post-comment-content"><%= comment.content %></p>
+                      </div>
+                    <% }) %>
+                  <% }else{ %>
+                    <p class="alert alert-info">暂无评论</p>
+                  <% } %>
+                </div>
+                <form class="post-comment-form" action="/posts/comment/<%= post._id %>" method="post" enctype="application/x-www-form-urlencoded">
+                  <h3>添加评论</h3>
+                  <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input class="form-control" type="email" name="email" placeholder="请输入邮箱。。。">
+                  </div>
+                  <div class="form-group">
+                    <label for="content">内容</label>
+                    <textarea class="form-control" name="content" placeholder="请输入内容。。。"></textarea>
+                  </div>
+                  <button class="btn btn-primary">提交</button>
+                </form>
+              </div>
+            </div>
+      </div><!-- /.blog-main -->
+
+   
+<% include footer %>

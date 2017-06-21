@@ -1,0 +1,41 @@
+<% include header %>
+  
+  <div class="container">
+    <h2 class="page-header">Node.js全栈博客系统</h2>
+    <div class="row">
+      <div class="col-sm-8 blog-main">
+          <% posts.forEach(function(post){ %>
+            <div class="post">
+              <h3 class="post-title">
+                <a target="_blank" href="/posts/view/<%= post.slug %>"><%= post.title %></a>
+              </h3>
+              <div class="post-abstarct"><%= truncate(post.content, 180) %></div>
+              <div class="post-meta">
+                <span class="post-created">发布时间：<%= moment(post.created).format('YYYY-MM-DD') %></span>
+                <span class="post-author">作者：<%= post.author.name %></span>
+                <span class="post-category">分类：<a target="_blank" href="/posts/category/<%= post.category.name %>"><%= post.category.name %></a></span>
+                <span class="post-comment">评论：<%= post.comment.length || 0 %></span>
+                <span class="post-favorite">被赞：<%= post.meta.favorite || 0 %></span>
+                <span class="post-link">
+                  <a target="_blank" href="/posts/view/<%= post.slug %>">查看全文</a>
+                </span>
+              </div>
+            </div>
+          <% }) %>
+      <% if(pageCount>1){ %>
+        <nav>
+          <ul class="pagination">
+            <% var currentPage = 1 %>
+            <% while(currentPage<pageCount){ %>
+              <% if(currentPage === pageNum){ %>
+                <li class="active"><a href="/posts?page=<%= currentPage %>"><%= currentPage++ %></a></li>
+              <% }else{ %>
+                <li><a href="/posts?page=<%= currentPage %>"><%= currentPage++ %></a></li>
+              <% } %>
+            <% } %>
+          </ul>
+        </nav>
+      <% } %>
+      </div><!-- /.blog-main -->
+
+<% include footer %>

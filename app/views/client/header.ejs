@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Blog</title>
+  <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/components/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="/css/client.css">
+  <% if (ENV_DEVELOPMENT) { %>
+    <script src="http://localhost:35729/livereload.js"></script>
+  <% } %>
+</head>
+<body>
+	<div class="blog-masthead">
+    <div class="container">
+      <nav class="blog-nav">
+        <% if(pageName === '/posts'){ %>
+          <a class="blog-nav-item active" href="/">Home</a>
+        <% }else{ %>
+          <a class="blog-nav-item" href="/">Home</a>
+        <% } %>
+        <% if(pageName === '/about'){ %>
+          <a class="blog-nav-item active" href="/about">About</a>
+        <% }else{ %>
+          <a class="blog-nav-item" href="/about">About</a>
+        <% } %>
+        <% if(pageName === '/contact'){ %>
+          <a class="blog-nav-item active" href="/contact">Contact</a>
+        <% }else{ %>
+          <a class="blog-nav-item" href="/contact">Contact</a>
+        <% } %>
+        <form class="navbar-form pull-right" method="get" action="/posts/">
+          <input type="text" class="form-control input-sm" name="keyword" placeholder="Search...">
+        </form>
+      </nav>
+    </div>
+  </div>

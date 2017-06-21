@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>博客后台管理系统</title>
+  <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/components/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="/css/user.css">
+  <% if (ENV_DEVELOPMENT) { %>
+    <script src="http://localhost:35729/livereload.js"></script>
+  <% } %>
+</head>
+<body>
+  <%- messages() %>
+  <div class="container">
+
+      <form class="form-signin" method="post" action="/admin/users/login">
+        <h2 class="form-signin-heading">
+       		管理员登入<small class="pull-right"><a href="/admin/users/register">注册</a></small>
+        </h2>
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" name="email" class="email form-control" placeholder="Email address" required="" autofocus="">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" class="password form-control" placeholder="Password" required="">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
+      </form>
+
+    </div> <!-- /container -->
+</body>
+</html>

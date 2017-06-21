@@ -1,0 +1,132 @@
+<% include ../header %>
+  <h2 class="page-header">文章列表</h2>
+  <%- messages() %>
+  <form id="form-post-filter" class="form form-inline form-filter">
+    <div class="form-group">
+      <label>分类</label>
+      <select id="js-category" class="form-control" name="category">
+        <option value="" <%= filter.category === "" ? 'selected="selected"' : '' %>> - 选择分类 - </option>
+        <% categories.forEach(function(category){ %>
+          <option value="<%= category._id %>" <%= category._id.toString() === filter.category ? 'selected="selected"' : '' %>><%= category.name %></option>
+        <% }) %>
+      </select>
+    </div>
+    &nbsp;&nbsp;
+     <div class="form-group">
+        <label>作者</label>
+        <select id="js-author" class="form-control" name="author">
+          <option value="" <%= filter.author === "" ? 'selected="selected"' : '' %>> - 选择作者 - </option>
+          <% authors.forEach(function(author){ %>
+            <option value="<%= author._id %>" <%= author._id.toString() === filter.author ? 'selected="selected"' : '' %>><%= author.name %></option>
+          <% }) %>
+        </select>
+      </div>
+    &nbsp;&nbsp;
+    <div class="form-group">
+      <label>关键词</label>
+      <input id="js-keyword" class="form-control" name="keyword" type="text" value=<%= filter.keyword %>></input>
+    </div>
+    &nbsp;&nbsp;
+    <button id="js-filter-submit" class="btn btn-info">筛选</button>
+  </form>
+
+  <table class="table table-bordered">
+  	<thead>
+  		<tr>
+  			<th width="40%">
+          <% if(sortby === 'title'){ %>
+            <% if(sortdir === 'desc'){ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=title&sortdir=asc"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;标题</a>
+            <% }else{ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=title&sortdir=desc"><i class="fa fa-arrow-up" aria-hidden="true"></i>&nbsp;标题</a>
+            <% } %>
+          <% }else{ %>
+            <a href="/admin/posts?page=<%= pageNum %>&sortby=title&sortdir=desc">标题</a>
+          <% } %>
+        </th>
+  			<th>
+          <% if(sortby === 'category'){ %>
+            <% if(sortdir === 'desc'){ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=category&sortdir=asc"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;分类</a>
+            <% }else{ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=category&sortdir=desc"><i class="fa fa-arrow-up" aria-hidden="true"></i>&nbsp;分类</a>
+            <% } %>
+          <% }else{ %>
+            <a href="/admin/posts?page=<%= pageNum %>&sortby=category&sortdir=desc">分类</a>
+          <% } %>
+        </th>
+  			<th>
+         <% if(sortby === 'author'){ %>
+            <% if(sortdir === 'desc'){ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=author&sortdir=asc"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;作者</a>
+            <% }else{ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=author&sortdir=desc"><i class="fa fa-arrow-up" aria-hidden="true"></i>&nbsp;作者</a>
+            <% } %>
+          <% }else{ %>
+            <a href="/admin/posts?page=<%= pageNum %>&sortby=author&sortdir=desc">作者</a>
+          <% } %>
+        </th>
+  			<th>
+          <% if(sortby === 'created'){ %>
+            <% if(sortdir === 'desc'){ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=created&sortdir=asc"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;添加时间</a>
+            <% }else{ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=created&sortdir=desc"><i class="fa fa-arrow-up" aria-hidden="true"></i>&nbsp;添加时间</a>
+            <% } %>
+          <% }else{ %>
+            <a href="/admin/posts?page=<%= pageNum %>&sortby=created&sortdir=desc">添加时间</a>
+          <% } %>
+        </th>
+  			<th>被赞</th>
+  			<th>评论</th>
+  			<th>
+         <% if(sortby === 'published'){ %>
+            <% if(sortdir === 'desc'){ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=published&sortdir=asc"><i class="fa fa-arrow-down" aria-hidden="true"></i>&nbsp;状态</a>
+            <% }else{ %>
+              <a href="/admin/posts?page=<%= pageNum %>&sortby=published&sortdir=desc"><i class="fa fa-arrow-up" aria-hidden="true"></i>&nbsp;状态</a>
+            <% } %>
+          <% }else{ %>
+            <a href="/admin/posts?page=<%= pageNum %>&sortby=published&sortdir=desc">状态</a>
+          <% } %>
+        </th>
+  			<th>管理</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+  		<% posts.forEach(function(post){ %>
+  			<tr>
+  				<td><a href="/posts/view/<%= post._id %>" target="_blank"><%= post.title %></a></td>
+    			<td><%= post.category.name %></td>
+    			<td><%= post.author.email %></td>
+    			<td><%= moment(post.created).format('YYYY-MM-DD HH:MM:SS') %></td>
+    			<td><%= post.meta.favorites || 0 %></td>
+    			<td><%= post.comment.length || 0 %></td>
+    			<td><%= post.published ? '已发布' : '待发布' %></td>
+    			<td>
+    				<a href="/posts/view/<%= post._id %>" class="btn btn-sm btn-success" target="_blank">查看</a>&nbsp;
+    				<a href="/admin/posts/edit/<%= post._id %>" class="btn btn-sm btn-info" target="_blank">编辑</a>&nbsp;
+    				<a href="/admin/posts/delete/<%= post._id %>" class="btn btn-sm btn-danger">删除</a>
+    			</td>
+  			</tr>
+  		<% }) %>
+  	</tbody>
+  </table>
+  <% if(pageCount>1){ %>
+    <nav>
+      <ul class="pagination">
+        <% var currentPage = 1 %>
+        <% while(currentPage<pageCount){ %>
+          <% if(currentPage === pageNum){ %>
+            <li class="active"><a href="/admin/posts?page=<%= currentPage %>&category=<%= filter.category %>&author=<%= filter.author %>&sortby=<%= sortby %>&sortdir=<%= sortdir %>"><%= currentPage++ %></a></li>
+          <% }else{ %>
+            <li><a href="/admin/posts?page=<%= currentPage %>&category=<%= filter.category %>&author=<%= filter.author %>&sortby=<%= sortby %>&sortdir=<%= sortdir %>"><%= currentPage++ %></a></li>
+          <% } %>
+        <% } %>
+      </ul>
+    </nav>
+  <% } %>
+    
+<% include ../footer %>
+<script type="text/javascript" src="/js/querystring.js"></script>
+<script type="text/javascript" src="/js/server/post.js"></script>

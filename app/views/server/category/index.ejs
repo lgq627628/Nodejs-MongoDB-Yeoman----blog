@@ -1,0 +1,30 @@
+<% include ../header %>
+
+  <h2 class="page-header">分类列表</h2>
+  <%- messages() %>
+  <table class="table table-bordered">
+  	<thead>
+  		<tr>
+  			<th>名称</th>
+  			<th>别名</th>
+  			<th>创建时间</th>
+  			<th>管理</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+  		<% categories.forEach(function(category){ %>
+  			<tr>
+  				<td><%= category.name %></a></td>
+    			<td><%= category.slug %></td>
+    			<td><%= moment(category.created).format('YYYY-MM-DD HH:MM:SS') %></td>
+    			<td>
+    				<a href="/posts/category/<%= category.name %>" class="btn btn-sm btn-success" target="_blank">查看</a>&nbsp;
+    				<a href="/admin/categories/edit/<%= category._id %>" class="btn btn-sm btn-info" target="_blank">编辑</a>&nbsp;
+    				<a href="/admin/categories/delete/<%= category._id %>" class="btn btn-sm btn-danger">删除</a>
+    			</td>
+  			</tr>
+  		<% }) %>
+  	</tbody>
+  </table>
+ 
+<% include ../footer %>
